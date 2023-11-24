@@ -3,7 +3,7 @@
 NULL_CHAR = chr(0)
 
 def write_report(report):
-	with open('/dev/hidg0', 'rb+') as fd:
+	with open('test', 'rb+') as fd:
 		fd.write(report.encode())
 
 write_report(chr(3) + NULL_CHAR * 2 + chr(0x10) + NULL_CHAR * 5)
