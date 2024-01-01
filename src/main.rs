@@ -8,7 +8,7 @@ fn main() -> Result<(), Error> {
 
     let mut keyboard_file: File = OpenOptions::new().append(true).open(path)?;
 
-    keyboard_file.write(b"\x03\x00\x00\x10\x00\x00\x00\x00\x00")?;
+    keyboard_file.write(b"\x03\x00\x00\x10\x00\x00\x00\x00")?;
     keyboard_file.write(b"\x00\x00\x00\x00\x00\x00\x00\x00")?;
 
     Ok(())
