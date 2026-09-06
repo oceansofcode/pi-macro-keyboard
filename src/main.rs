@@ -7,13 +7,9 @@ use tiny_http::Server;
 
 fn main() -> Result<(), Error> {
 
-    let home_dir = home_dir().expect("No home?!");
+    let home_dir = home_dir().expect("No home");
 
-    const AUTH_FILE: &str = "auth.txt";
-
-    let home_dir = home_dir.display().to_string() + "/" + AUTH_FILE;
-
-    let home_dir = Path::new(&home_dir);
+    let home_dir = home_dir.display().to_string() + "/auth.txt";
 
     let auth = fs::read_to_string(home_dir).expect("No Auth File");
 
@@ -22,8 +18,6 @@ fn main() -> Result<(), Error> {
     for request in tiny_http.incoming_requests() {
         let headers = request.headers();
 
-        println!("request {request:#?}");
-        
         for header in headers {
 
             if header.field.as_str().eq("X-Auth") {
@@ -31,7 +25,6 @@ fn main() -> Result<(), Error> {
                 let auth_check = value.trim() == auth.trim();
 
                 if auth_check {
-                    println!("request!");
                     trigger_mute_unmute()?;
                 }
             }
