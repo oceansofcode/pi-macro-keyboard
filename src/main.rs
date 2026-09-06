@@ -22,12 +22,12 @@ fn main() -> Result<(), Error> {
                 if header.value.to_string().trim() == auth.trim() {
                     if request.url().trim() == "/teams-toggle" {
                         trigger_mute_unmute()?;
-                        break;
+                        continue;
                     }
                 }
             }
         }
-        break;
+        continue;
     }
 
     Ok(())
