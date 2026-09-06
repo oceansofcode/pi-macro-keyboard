@@ -2,6 +2,7 @@ use std::env::home_dir;
 use std::fs::{self, File, OpenOptions};
 use std::path::Path;
 use std::io::{Error, Write};
+use std::{thread, time};
 
 use tiny_http::Server;
 
@@ -27,7 +28,7 @@ fn main() -> Result<(), Error> {
                 }
             }
         }
-        continue;
+        thread::sleep(time::Duration::from_secs(1));
     }
 
     Ok(())
