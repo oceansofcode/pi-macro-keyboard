@@ -24,6 +24,9 @@ fn main() -> Result<(), Error> {
                     if request.url().trim() == "/teams-toggle" {
                         trigger_mute_unmute()?;
                         continue;
+                    } else if request.url().trim() == "/end-call" {
+                        trigger_end_call()?;
+                        continue;
                     }
                 }
             }
@@ -37,7 +40,16 @@ fn main() -> Result<(), Error> {
 fn trigger_mute_unmute () -> Result<(), Error> {
     let mut keyboard_file: File = OpenOptions::new().append(true).open(Path::new("/dev/hidg0"))?;
 
-    keyboard_file.write(b"\x03\x00\x00\x10\x00\x00\x00\x00")?;
+    keyboard_file.write(b"\x03\x00\x10\x00\x00\x00\x00\x00")?;
+    keyboard_file.write(b"\x00\x00\x00\x00\x00\x00\x00\x00")?;
+
+    Ok(())
+}
+
+fn trigger_end_call () -> Result<(), Error> {
+    let mut keyboard_file: File = OpenOptions::new().append(true).open(Path::new("dev/hidg0"))?;
+
+    keyboard_file.write(b"\x03\x00\x0b\x00\x00\x00\x00\x00")?;
     keyboard_file.write(b"\x00\x00\x00\x00\x00\x00\x00\x00")?;
 
     Ok(())
