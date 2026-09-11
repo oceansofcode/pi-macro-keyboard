@@ -22,10 +22,10 @@ fn main() -> Result<(), Error> {
             if header.field.as_str().eq("X-Auth") {
                 if header.value.to_string().trim() == auth.trim() {
                     if request.url().trim() == "/teams-toggle" {
-                        trigger_mute_unmute()?;
+                        trigger_keyboard(b"\x03\x00\x10\x00\x00\x00\x00\x00")?;
                         continue;
                     } else if request.url().trim() == "/end-call" {
-                        trigger_end_call()?;
+                        trigger_keyboard(b"\x03\x00\x0b\x00\x00\x00\x00\x00")?;
                         continue;
                     }
                 }
@@ -35,6 +35,15 @@ fn main() -> Result<(), Error> {
     }
 
     Ok(())
+}
+
+fn trigger_keyboard (bytes: &[u8]) -> Result<(), Error> {
+     let mut keyboard_file: File = OpenOptions::new().append(true).open(Path::new("/dev/hidg0"))?;
+
+    keyboard_file.write(bytes)?;
+    keyboard_file.write(b"\x00\x00\x00\x00\x00\x00\x00\x00")?;
+
+    Ok(())   
 }
 
 fn trigger_mute_unmute () -> Result<(), Error> {
