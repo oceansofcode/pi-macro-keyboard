@@ -21,7 +21,7 @@ fn main() -> Result<(), Error> {
 
     let auth = fs::read_to_string(home_dir).expect("No Auth File");
 
-    let tiny_http = Server::http("0.0.0.0:".to_string() + PORT).unwrap();
+    let tiny_http = Server::http(format!("[::]:{}", PORT)).unwrap();
 
     for request in tiny_http.incoming_requests() {
         for header in request.headers() {
@@ -50,22 +50,4 @@ fn trigger_keyboard (bytes: &[u8]) -> Result<(), Error> {
     keyboard_file.write(b"\x00\x00\x00\x00\x00\x00\x00\x00")?;
 
     Ok(())   
-}
-
-fn trigger_mute_unmute () -> Result<(), Error> {
-    let mut keyboard_file: File = OpenOptions::new().append(true).open(Path::new("/dev/hidg0"))?;
-
-    keyboard_file.write(b"\x03\x00\x10\x00\x00\x00\x00\x00")?;
-    keyboard_file.write(b"\x00\x00\x00\x00\x00\x00\x00\x00")?;
-
-    Ok(())
-}
-
-fn trigger_end_call () -> Result<(), Error> {
-    let mut keyboard_file: File = OpenOptions::new().append(true).open(Path::new("dev/hidg0"))?;
-
-    keyboard_file.write(b"\x03\x00\x0b\x00\x00\x00\x00\x00")?;
-    keyboard_file.write(b"\x00\x00\x00\x00\x00\x00\x00\x00")?;
-
-    Ok(())
 }
