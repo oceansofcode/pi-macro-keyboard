@@ -9,7 +9,7 @@ use tiny_http::Server;
 const AUTH_HEADER: &str = "X-Auth";
 const AUTH_FILE: &str = "/auth.txt";
 
-const PORT: &str = "59285";
+const PORT: u16 = 59285;
 
 const TOGGLE_MUTE_ENDPOINT: &str = "/teams-toggle";
 const TOGGLE_END_CALL_ENDPOINT: &str = "/end-call";
